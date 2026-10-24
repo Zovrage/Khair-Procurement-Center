@@ -1,4 +1,5 @@
 from enum import Enum as PyEnum
+from uuid import uuid4
 
 from sqlalchemy import Boolean, Column, DateTime, Enum, Integer, String, Text
 from sqlalchemy.orm import relationship
@@ -21,7 +22,7 @@ class FactoryStatus(str, PyEnum):
 class Factory(Base):
     __tablename__ = "factories"
 
-    id = Column(String, primary_key=True, index=True)
+    id = Column(String, primary_key=True, default=lambda: str(uuid4()), index=True)
     name = Column(String(255), nullable=False, index=True)
     short_name = Column(String(100), nullable=True)
     contact_person = Column(String(255), nullable=True)

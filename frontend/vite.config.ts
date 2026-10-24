@@ -6,6 +6,10 @@ export default defineConfig({
   server: {
     port: 5173,
     host: '0.0.0.0',
+    proxy: {
+      '/api': process.env.API_PROXY_TARGET ?? 'http://localhost:8000',
+      '/auth': process.env.API_PROXY_TARGET ?? 'http://localhost:8000',
+    },
   },
   preview: {
     port: 4173,

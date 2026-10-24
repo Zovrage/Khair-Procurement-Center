@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, EmailStr, Field
@@ -46,5 +47,12 @@ class FactoryUpdate(BaseSchema):
 
 class FactoryRead(FactoryBase):
     id: str
-    created_at: str | None = None
-    updated_at: str | None = None
+    created_at: datetime | None = None
+    updated_at: datetime | None = None
+
+
+class FactoryList(BaseSchema):
+    items: list[FactoryRead]
+    total: int
+    page: int
+    page_size: int

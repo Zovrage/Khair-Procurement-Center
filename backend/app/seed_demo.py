@@ -53,6 +53,7 @@ def seed_demo_data() -> None:
         request = ProcurementRequest(
             id=str(uuid4()),
             bitrix_deal_id="1542",
+            bitrix_portal_url="demo",
             bitrix_category_id="crm_deal_category",
             bitrix_stage_id="new",
             bitrix_title="Склад в Новороссийске",
@@ -60,6 +61,7 @@ def seed_demo_data() -> None:
             bitrix_responsible_id="42",
             bitrix_created_at=None,
             last_synced_at=None,
+            is_active=True,
             owner_id="admin",
         )
         db.add(request)

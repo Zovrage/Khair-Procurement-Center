@@ -34,8 +34,141 @@ body {
   border-radius: 12px;
 }
 
-.card-grid {
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 22px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  padding: 0 24px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 5%);
+}
+
+.user-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-content {
+  min-width: 0;
+  margin: 20px;
+}
+
+.demo-banner {
+  margin-bottom: 16px;
+}
+
+.request-filters {
+  margin-bottom: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.request-summary {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.dispatch-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.dispatch-fields > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.order-list {
+  display: flex;
+  min-height: 36px;
+  margin: 8px 0 12px;
+}
+
+.order-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border: 1px solid #d9e3f0;
+  border-radius: 6px;
+  background: #f5f8fc;
+}
+
+.order-input {
+  display: flex;
+  width: min(100%, 420px);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 16px;
+}
+
+.wide-field {
+  grid-column: 1 / -1;
+}
+
+.login-screen,
+.app-loading {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 20px;
+}
+
+.login-card {
+  width: min(100%, 420px);
+  box-shadow: 0 8px 32px rgb(28 44 64 / 8%);
+}
+
+.demo-hint {
+  margin: 16px 0 0;
+  text-align: center;
+}
+
+.error-text {
+  display: block;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 700px) {
+  .app-content {
+    margin: 12px;
+  }
+
+  .app-header {
+    padding-inline: 12px;
+  }
+
+  .user-header > .ant-typography {
+    display: none;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .wide-field {
+    grid-column: auto;
+  }
 }

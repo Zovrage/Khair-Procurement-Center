@@ -1,5 +1,6 @@
 from datetime import datetime
 from typing import Optional
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -20,6 +21,14 @@ class ProcurementRequestRead(BaseSchema):
     updated_at: datetime
 
 
+class OrderNumberRead(BaseSchema):
+    id: str
+    request_factory_id: str
+    order_number: str
+    created_at: datetime
+    updated_at: datetime
+
+
 class RequestFactoryRead(BaseSchema):
     id: str
     procurement_request_id: str
@@ -32,17 +41,18 @@ class RequestFactoryRead(BaseSchema):
     updated_at: datetime
     factory_name: Optional[str] = None
     order_numbers: list[str] = []
+    order_number_records: list[OrderNumberRead] = []
 
 
 class RequestFactoryCreate(BaseSchema):
     factory_id: str = Field(..., min_length=1)
     dispatch_datetime: Optional[datetime] = None
-    dispatch_method: Optional[str] = None
+    dispatch_method: Optional[Literal["WhatsApp", "Почта", "Сайт"]] = None
 
 
 class RequestFactoryUpdate(BaseSchema):
     dispatch_datetime: Optional[datetime] = None
-    dispatch_method: Optional[str] = None
+    dispatch_method: Optional[Literal["WhatsApp", "Почта", "Сайт"]] = None
 
 
 class OrderNumberCreate(BaseSchema):
@@ -51,11 +61,3 @@ class OrderNumberCreate(BaseSchema):
 
 class OrderNumberUpdate(BaseSchema):
     order_number: str = Field(..., min_length=1)
-
-
-class OrderNumberRead(BaseSchema):
-    id: str
-    request_factory_id: str
-    order_number: str
-    created_at: datetime
-    updated_at: datetime

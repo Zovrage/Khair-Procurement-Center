@@ -1,4 +1,6 @@
-from sqlalchemy import Column, DateTime, ForeignKey, String
+from uuid import uuid4
+
+from sqlalchemy import Column, DateTime, ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -7,8 +9,9 @@ from app.database import Base
 
 class RequestFactory(Base):
     __tablename__ = "request_factories"
+    __table_args__ = (UniqueConstraint("procurement_request_id", "factory_id", name="uq_request_factory"),)
 
-    id = Column(String, primary_key=True, index=True)
+    id = Column(String, primary_key=True, default=lambda: str(uuid4()), index=True)
     procurement_request_id = Column(String, ForeignKey("procurement_requests.id"), nullable=False, index=True)
     factory_id = Column(String, ForeignKey("factories.id"), nullable=False, index=True)
     dispatch_datetime = Column(DateTime(timezone=True), nullable=True)

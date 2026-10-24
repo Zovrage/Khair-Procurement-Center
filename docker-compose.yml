@@ -5,23 +5,38 @@ services:
     environment:
       POSTGRES_DB: khair
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d khair"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   backend:
     build: ./backend
     restart: unless-stopped
     environment:
-      DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/khair
-      APP_ENV: development
-      DEMO_MODE: "true"
-      SECRET_KEY: dev-secret-key
+      DATABASE_URL: ${DATABASE_URL:-postgresql+psycopg://postgres:postgres@postgres:5432/khair}
+      APP_ENV: ${APP_ENV:-development}
+      DEMO_MODE: ${DEMO_MODE:-true}
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-key}
       ACCESS_TOKEN_EXPIRE_MINUTES: 360
+      BITRIX_PORTAL_URL: ${BITRIX_PORTAL_URL:-}
+      BITRIX_WEBHOOK_URL: ${BITRIX_WEBHOOK_URL:-}
+      BITRIX_DEAL_PIPELINE_ID: ${BITRIX_DEAL_PIPELINE_ID:-}
+      TIMEZONE: ${TIMEZONE:-Europe/Moscow}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:5173}
+      BITRIX_SYNC_INTERVAL_SECONDS: ${BITRIX_SYNC_INTERVAL_SECONDS:-300}
+      INITIAL_ADMIN_USERNAME: ${INITIAL_ADMIN_USERNAME:-}
+      INITIAL_ADMIN_PASSWORD: ${INITIAL_ADMIN_PASSWORD:-}
+      INITIAL_ADMIN_FULL_NAME: ${INITIAL_ADMIN_FULL_NAME:-Системный администратор}
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     ports:
       - "8000:8000"
 
@@ -29,7 +44,7 @@ services:
     build: ./frontend
     restart: unless-stopped
     environment:
-      VITE_API_BASE_URL: http://localhost:8000
+      API_PROXY_TARGET: http://backend:8000
     depends_on:
       - backend
     ports:
