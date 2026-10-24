@@ -9,9 +9,6 @@ from app.security import get_password_hash
 def seed_demo_users() -> None:
     db = SessionLocal()
     try:
-        demo_records = db.query(ProcurementRequest).filter(ProcurementRequest.bitrix_portal_url == "demo").count()
-        if demo_records:
-            raise RuntimeError("Demo records detected in the production database; configure a separate clean production database")
         if db.query(User).count() > 0:
             return
         users = [
@@ -21,6 +18,18 @@ def seed_demo_users() -> None:
         ]
         db.add_all(users)
         db.commit()
+    finally:
+        db.close()
+
+
+def ensure_production_database_is_clean() -> None:
+    db = SessionLocal()
+    try:
+        demo_records = db.query(ProcurementRequest).filter(ProcurementRequest.bitrix_portal_url == "demo").count()
+        if demo_records:
+            raise RuntimeError(
+                "Demo records detected in the production database; configure a separate clean production database"
+            )
     finally:
         db.close()
 

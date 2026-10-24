@@ -14,7 +14,7 @@ from app.api.routes.users import router as users_router
 from app.config import settings
 from app.database import Base, engine
 from app.models import *  # noqa: F401,F403
-from app.services.demo_users import ensure_initial_admin, seed_demo_users
+from app.services.demo_users import ensure_initial_admin, ensure_production_database_is_clean, seed_demo_users
 from app.seed_demo import seed_demo_data
 from app.database import SessionLocal
 
@@ -32,6 +32,8 @@ async def lifespan(_: FastAPI):
         seed_demo_users()
         seed_demo_data()
     else:
+        if settings.app_env == "production":
+            ensure_production_database_is_clean()
         ensure_initial_admin()
     sync_task = None
     if settings.bitrix_webhook_url and settings.bitrix_deal_pipeline_id:

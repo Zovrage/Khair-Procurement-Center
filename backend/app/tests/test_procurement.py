@@ -240,3 +240,11 @@ def test_admin_can_manage_users_and_last_admin_is_protected(client: TestClient):
     manager_headers = login(client, "manager", "manager123")
     forbidden = client.get("/api/v1/users", headers=manager_headers)
     assert forbidden.status_code == 403
+
+
+def test_demo_database_can_restart_and_is_rejected_in_production(client: TestClient):
+    from app.services.demo_users import ensure_production_database_is_clean, seed_demo_users
+
+    seed_demo_users()
+    with pytest.raises(RuntimeError, match="Demo records detected in the production database"):
+        ensure_production_database_is_clean()
