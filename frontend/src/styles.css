@@ -1,0 +1,41 @@
+:root {
+  font-family: Inter, sans-serif;
+  color: #1f2937;
+  background: #f5f7fb;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  min-height: 100%;
+  min-width: 100%;
+  background: #f5f7fb;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.ant-layout {
+  background: #f5f7fb;
+}
+
+.ant-table-wrapper {
+  background: white;
+  border-radius: 12px;
+}
+
+.card-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
